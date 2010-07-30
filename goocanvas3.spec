@@ -1,17 +1,18 @@
-%define major 3
-%define libname %mklibname goocanvas %major
-%define develname %mklibname -d goocanvas
-
-Name: goocanvas
-Version: 0.15
-Release: %mkrel 2
+%define api 2.0
+%define major 8
+%define oname goocanvas
+%define libname %mklibname %oname %api %major
+%define develname %mklibname -d %oname %api
+Name: goocanvas3
+Version: 1.90.0
+Release: %mkrel 1
 Summary: New canvas widget for GTK+ that uses the cairo 2D library
 Group: Development/GNOME and GTK+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 License: LGPL+
 URL: http://sourceforge.net/projects/goocanvas
-Source: http://ftp.gnome.org/pub/GNOME/sources/goocanvas/%{name}-%{version}.tar.bz2
-BuildRequires: gtk+2-devel
+Source: http://ftp.gnome.org/pub/GNOME/sources/goocanvas/%{oname}-%{version}.tar.bz2
+BuildRequires: gtk+3-devel
 BuildRequires: gnome-doc-utils
 BuildRequires: intltool
 
@@ -29,13 +30,6 @@ Provides: lib%{name} = %{version}-%{release}
 %description -n %{libname}
 This package contains the shared library for goocanvas.
 
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%endif
-%if %mdkversion < 200900
-%postun -n %{libname} -p /sbin/ldconfig
-%endif
-
 %package i18n
 Summary: New canvas widget for GTK+ that uses the cairo 2D library
 Group: System/Internationalization
@@ -49,13 +43,14 @@ Group: Development/GNOME and GTK+
 Requires: %{libname} = %{version}-%{release}
 Provides: lib%{name}-devel = %{version}-%{release}
 Provides: %{name}-devel = %{version}-%{release}
+Provides: %{oname}-%api-devel = %{version}-%{release}
 
 %description -n %{develname}
 This package contains the development libraries, include files 
 and documentation.
 
 %prep
-%setup -q
+%setup -q -n %oname-%version
 
 %build
 %configure2_5x
@@ -64,7 +59,7 @@ and documentation.
 %install
 rm -rf %{buildroot}
 %makeinstall
-%find_lang %{name}
+%find_lang %{oname}
 
 %clean
 rm -rf %{buildroot}
@@ -72,14 +67,14 @@ rm -rf %{buildroot}
 %files -n %{libname}
 %defattr(-,root,root)
 %doc README COPYING AUTHORS
-%{_libdir}/libgoocanvas.so.%{major}*
+%{_libdir}/libgoocanvas-%api.so.%{major}*
 
-%files i18n -f %{name}.lang
+%files i18n -f %{oname}.lang
 
 %files -n %{develname}
 %defattr(-,root,root)
 %doc %{_datadir}/gtk-doc/html/%name
-%{_includedir}/%{name}-1.0
+%{_includedir}/%{name}-%api
 %{_libdir}/*.so
 %{_libdir}/*.la
 %{_libdir}/*.a
