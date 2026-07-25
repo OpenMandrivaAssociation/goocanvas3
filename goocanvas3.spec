@@ -5,7 +5,7 @@
 %define develname %mklibname -d %oname %api
 Name: goocanvas3
 Version: 1.90.0
-Release: %mkrel 1
+Release: 2
 Summary: New canvas widget for GTK+ that uses the cairo 2D library
 Group: Development/GNOME and GTK+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
